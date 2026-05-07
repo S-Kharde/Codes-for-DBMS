@@ -1,0 +1,40 @@
+7) A MongoDB collection named orders contains documents with the following structure: 
+Orders(Id, name, product, category, amt, date) 
+1) Find the total sales amount for each category. 
+2) Find the average order amount per category. 
+3) Sort categories by total sales in descending order. 
+
+db.orders.insertMany([
+  { _id: 1, name: "Amit", product: "Laptop", category: "Electronics", amt: 50000, date: "2024-01-01" },
+  { _id: 2, name: "Riya", product: "Mobile", category: "Electronics", amt: 20000, date: "2024-01-02" },
+  { _id: 3, name: "Rahul", product: "Shoes", category: "Fashion", amt: 3000, date: "2024-01-03" },
+  { _id: 4, name: "Sneha", product: "Dress", category: "Fashion", amt: 4000, date: "2024-01-04" },
+  { _id: 5, name: "Karan", product: "TV", category: "Electronics", amt: 30000, date: "2024-01-05" }
+])
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      total_sales: { $sum: "$amt" }
+    }
+  }
+])
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      avg_sales: { $avg: "$amt" }
+    }
+  }
+])
+db.orders.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      total_sales: { $sum: "$amt" }
+    }
+  },
+  {
+    $sort: { total_sales: -1 }
+  }
+])
