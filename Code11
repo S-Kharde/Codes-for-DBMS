@@ -1,0 +1,61 @@
+11)Develop a database to analyze sales performance of a company. 
+Create a table: Sales (sale_id, product_name, region, quantity, price) 
+Insert at least 10–15 records covering multiple products and regions. 
+Write SQL queries to: 
+1. Calculate total sales amount (SUM(quantity * price)) for each product. 
+2. Find average sales per region using AVG(). 
+3. Identify highest and lowest sales using MAX() and MIN(). 
+4. Use GROUP BY to group data by product_name and region. 
+5. Use HAVING to: 
+Display products with total sales > 5000 
+Show regions where average sales < 1000 
+
+CREATE DATABASE sales_db;
+USE sales_db;
+CREATE TABLE Sales (
+    sale_id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    region VARCHAR(50),
+    quantity INT,
+    price INT
+);
+INSERT INTO Sales VALUES
+(1, 'Laptop', 'Mumbai', 5, 50000),
+(2, 'Mobile', 'Pune', 10, 20000),
+(3, 'Laptop', 'Nagpur', 3, 50000),
+(4, 'Tablet', 'Mumbai', 7, 15000),
+(5, 'Mobile', 'Nagpur', 8, 20000),
+(6, 'Laptop', 'Pune', 4, 50000),
+(7, 'Tablet', 'Pune', 6, 15000),
+(8, 'Mobile', 'Mumbai', 9, 20000),
+(9, 'Laptop', 'Mumbai', 2, 50000),
+(10, 'Tablet', 'Nagpur', 5, 15000),
+(11, 'Mobile', 'Pune', 7, 20000),
+(12, 'Laptop', 'Nagpur', 6, 50000);
+SELECT product_name,
+SUM(quantity * price) AS total_sales
+FROM Sales
+GROUP BY product_name;
+SELECT region,
+AVG(quantity * price) AS avg_sales
+FROM Sales
+GROUP BY region;
+SELECT 
+MAX(quantity * price) AS highest_sales,
+MIN(quantity * price) AS lowest_sales
+FROM Sales;
+SELECT product_name, region,
+SUM(quantity * price) AS total_sales
+FROM Sales
+GROUP BY product_name, region;
+SELECT product_name,
+SUM(quantity * price) AS total_sales
+FROM Sales
+GROUP BY product_name
+HAVING total_sales > 5000;
+SELECT region,
+AVG(quantity * price) AS avg_sales
+FROM Sales
+GROUP BY region
+HAVING avg_sales < 1000;
+
