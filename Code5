@@ -1,0 +1,57 @@
+5)Develop a database for an Online Shopping System using SQL. 
+Create tables such as: Customer (c_id, name, address, phno, email) ,Product (p_id, pname, c_id, price, qty). 
+Using CREATE tables , ALTER to modify structure, RENAME any one table , TRUNCATE and DROP operations for testing . Also apply constraints: PRIMARY KEY for each table , FOREIGN KEY in product referencing Customers , NOT NULL for important fields (name, price) , UNIQUE for customer email or product code , CHECK for price > 0 and quantity ≥ 1 
+Insert sample data (minimum 7 to 10 records per table), Test integrity constraints by inserting incorrect data.ON DELETE CASCADE. 
+
+
+	
+CREATE DATABASE shopping_db;
+USE shopping_db;
+CREATE TABLE Customer (
+    c_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(100),
+    phno VARCHAR(15),
+    email VARCHAR(50) UNIQUE
+);
+CREATE TABLE Product (
+    p_id INT PRIMARY KEY,
+    pname VARCHAR(50),
+    c_id INT,
+    price INT CHECK (price > 0),
+    qty INT CHECK (qty >= 1),
+    FOREIGN KEY (c_id) REFERENCES Customer(c_id)
+    ON DELETE CASCADE
+);
+ALTER TABLE Product ADD COLUMN category VARCHAR(30);
+RENAME TABLE Product TO Products;
+INSERT INTO Customer VALUES
+(1, 'Amit', 'Nagpur', '9876543210', 'amit@gmail.com'),
+(2, 'Riya', 'Mumbai', '9123456780', 'riya@gmail.com'),
+(3, 'Rahul', 'Pune', '9988776655', 'rahul@gmail.com'),
+(4, 'Sneha', 'Delhi', '8877665544', 'sneha@gmail.com'),
+(5, 'Karan', 'Chennai', '7766554433', 'karan@gmail.com'),
+(6, 'Neha', 'Bangalore', '6655443322', 'neha@gmail.com'),
+(7, 'Arjun', 'Hyderabad', '5544332211', 'arjun@gmail.com');
+
+INSERT INTO Products VALUES
+(101, 'Laptop', 1, 50000, 2, 'Electronics'),
+(102, 'Mobile', 2, 20000, 5, 'Electronics'),
+(103, 'Shoes', 3, 3000, 3, 'Fashion'),
+(104, 'Watch', 4, 2500, 4, 'Accessories'),
+(105, 'Bag', 5, 1500, 6, 'Fashion'),
+(106, 'Headphones', 6, 2000, 2, 'Electronics'),
+(107, 'Keyboard', 7, 1200, 3, 'Electronics');
+
+SELECT * FROM Customer;
+SELECT * FROM Products;
+INSERT INTO Products VALUES
+(108, 'InvalidItem', 1, -500, 2, 'Test');
+INSERT INTO Products VALUES
+(109, 'InvalidQty', 2, 1000, 0, 'Test');
+INSERT INTO Customer VALUES
+(8, 'Test', 'Nagpur', '9999999999', 'amit@gmail.com');
+DELETE FROM Customer WHERE c_id = 1;
+SELECT * FROM Products;
+TRUNCATE TABLE Products;
+DROP TABLE Products;
