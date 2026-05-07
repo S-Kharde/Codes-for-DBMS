@@ -1,0 +1,24 @@
+12)CRUD Operations using MongoDB 
+Design and implement basic Create, Read, Update, and Delete (CRUD) operations using MongoDB. 
+Use the save method and logical operators wherever necessary. 
+use practicaldb
+db.students.insertOne({ _id: 1, name: "Amit", age: 20, city: "Pune" })
+db.students.insertMany([
+  { _id: 2, name: "Riya", age: 22, city: "Mumbai" },
+  { _id: 3, name: "Rahul", age: 19, city: "Nagpur" }
+])
+db.students.find()
+db.students.find({
+  $and: [
+    { age: { $gt: 20 } },
+    { city: "Mumbai" }
+  ]
+})
+db.students.updateOne(
+  { _id: 2 },
+  { $set: { age: 23 } }
+)
+db.students.find()
+db.students.deleteOne({ _id: 3 })
+db.students.find()
+
