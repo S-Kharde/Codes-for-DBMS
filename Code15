@@ -1,0 +1,42 @@
+15)Database Triggers Implement and test triggers to maintain data integrity in database Use appropriate data and implement Before and after 
+
+
+CREATE DATABASE trigger_db;
+USE trigger_db;
+CREATE TABLE Student (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    marks INT
+);
+CREATE TABLE Student_Log (
+    id INT,
+    message VARCHAR(50)
+);
+
+DELIMITER //
+
+CREATE TRIGGER before_marks_check
+BEFORE INSERT ON Student
+FOR EACH ROW
+BEGIN
+    IF NEW.marks > 100 THEN
+        SET NEW.marks = 100;
+    END IF;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_log
+AFTER INSERT ON Student
+FOR EACH ROW
+BEGIN
+    INSERT INTO Student_Log VALUES (NEW.id, 'Record Inserted');
+END //
+
+DELIMITER ;
+INSERT INTO Student VALUES (1, 'Amit', 150);
+INSERT INTO Student VALUES (2, 'Riya', 90);
+SELECT * FROM Student;
+SELECT * FROM Student_Log;
