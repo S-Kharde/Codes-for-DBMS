@@ -1,0 +1,50 @@
+1) Design and implement a Student Course Management System database using SQL. 
+Create tables such as: Student (rollno, name, address, phno, email_id, marks) , Courses (c_id, cname, rollno) using CREATE, ALTER, RENAME, TRUNCATE and DROP tables where required. Also, apply constraints: PRIMARY KEY on student and course IDs ,FOREIGN KEY in Course table, NOT NULL for essential fields (e.g., student name) , UNIQUE for email and CHECK for valid marks (0–100) . Insert at least 7 to 10 records into each table. Demonstrate constraint enforcement by attempting invalid insertions. Use ON DELETE CASCADE 
+
+CREATE DATABASE student_course_db;
+USE student_course_db;
+CREATE TABLE Student (
+    rollno INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(100),
+    phno VARCHAR(15),
+    email_id VARCHAR(50) UNIQUE,
+    marks INT CHECK (marks >= 0 AND marks <= 100)
+);
+CREATE TABLE Courses (
+    c_id INT PRIMARY KEY,
+    cname VARCHAR(50),
+    rollno INT,
+    FOREIGN KEY (rollno) REFERENCES Student(rollno)
+    ON DELETE CASCADE
+);
+ALTER TABLE Student ADD COLUMN age INT;
+RENAME TABLE Courses TO Course_Details;
+INSERT INTO Student VALUES
+(1, 'Amit', 'Nagpur', '9876543210', 'amit@gmail.com', 85, 20),
+(2, 'Riya', 'Mumbai', '9123456780', 'riya@gmail.com', 90, 21),
+(3, 'Rahul', 'Pune', '9988776655', 'rahul@gmail.com', 75, 22),
+(4, 'Sneha', 'Delhi', '8877665544', 'sneha@gmail.com', 88, 20),
+(5, 'Karan', 'Chennai', '7766554433', 'karan@gmail.com', 92, 23),
+(6, 'Neha', 'Bangalore', '6655443322', 'neha@gmail.com', 70, 21),
+(7, 'Arjun', 'Hyderabad', '5544332211', 'arjun@gmail.com', 80, 22);
+
+INSERT INTO Course_Details VALUES
+(101, 'DBMS', 1),
+(102, 'Java', 2),
+(103, 'Python', 3),
+(104, 'OS', 4),
+(105, 'CN', 5),
+(106, 'AI', 6),
+(107, 'ML', 7);
+INSERT INTO Student VALUES
+(8, 'Test', 'Nagpur', '9999999999', 'test@gmail.com', 150, 20);
+INSERT INTO Student VALUES
+(9, 'Test2', 'Nagpur', '8888888888', 'amit@gmail.com', 80, 20);
+INSERT INTO Student VALUES
+(10, NULL, 'Nagpur', '7777777777', 'test2@gmail.com', 70, 20);
+DELETE FROM Student WHERE rollno = 1;
+SELECT * FROM Course_Details;
+TRUNCATE TABLE Course_Details;
+DROP TABLE Course_Details;
+
