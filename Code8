@@ -1,0 +1,19 @@
+. 8) Improve Query Performance using Indexing, Consider a collection users: (Id, name, mailed, age, city) 1. Create an index on the email field to improve search performance. 
+2. Create a compound index on city and age. 
+3. Query users from Mumbai aged above 20 efficiently
+
+
+use userDB
+db.users.insertMany([
+  { name: "Amit", email: "amit@gmail.com", age: 25, city: "Mumbai" },
+  { name: "Riya", email: "riya@gmail.com", age: 30, city: "Pune" },
+  { name: "Rahul", email: "rahul@gmail.com", age: 22, city: "Mumbai" },
+  { name: "Sneha", email: "sneha@gmail.com", age: 19, city: "Mumbai" },
+  { name: "Karan", email: "karan@gmail.com", age: 35, city: "Delhi" }
+])
+db.users.createIndex({ email: 1 })
+db.users.createIndex({ city: 1, age: 1 })
+db.users.find({
+  city: "Mumbai",
+  age: { $gt: 20 }
+})
