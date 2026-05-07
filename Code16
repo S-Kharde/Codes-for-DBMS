@@ -1,0 +1,66 @@
+16)Create a db called company consist of the following tables. 
+1.Emp (eno,ename, job,hiredate,salary,commission,deptno,) 
+2.dept(deptno,deptname,location) 
+eno is primary key in emp 
+deptno is primary key in dept 
+Solve Queries by SQL 
+1. List the maximum salary paid to salesman 
+2. List name of emp whose name start with „I‟ 
+3. List the emp details in the descending order of their basic salary 
+4. List the avg salary, minimum salary of the emp hire datewise for dept no „10‟. 
+5. List emp name and its department 
+6. List total salary paid to each department 
+7. List details of employee working in „Dev‟ department. 
+
+
+CREATE DATABASE company;
+USE company;
+CREATE TABLE dept (
+    deptno INT PRIMARY KEY,
+    deptname VARCHAR(50),
+    location VARCHAR(50)
+);
+CREATE TABLE emp (
+    eno INT PRIMARY KEY,
+    ename VARCHAR(50),
+    job VARCHAR(50),
+    hiredate DATE,
+    salary INT,
+    commission INT,
+    deptno INT,
+    FOREIGN KEY (deptno) REFERENCES dept(deptno)
+);
+INSERT INTO dept VALUES
+(10, 'Dev', 'Mumbai'),
+(20, 'HR', 'Pune'),
+(30, 'Sales', 'Delhi');
+INSERT INTO emp VALUES
+(1, 'Amit', 'Salesman', '2022-01-10', 30000, 2000, 30),
+(2, 'Isha', 'Developer', '2021-03-15', 50000, 0, 10),
+(3, 'Rahul', 'Salesman', '2020-06-20', 40000, 3000, 30),
+(4, 'Irfan', 'Manager', '2019-02-11', 60000, 0, 20),
+(5, 'Neha', 'Developer', '2023-07-01', 45000, 0, 10);
+SELECT MAX(salary) 
+FROM emp
+WHERE job = 'Salesman';
+SELECT * FROM emp
+WHERE ename LIKE 'I%';
+SELECT * FROM emp
+ORDER BY salary DESC;
+SELECT hiredate,
+AVG(salary) AS avg_salary,
+MIN(salary) AS min_salary
+FROM emp
+WHERE deptno = 10
+GROUP BY hiredate;
+SELECT e.ename, d.deptname
+FROM emp e, dept d
+WHERE e.deptno = d.deptno;
+SELECT d.deptname, SUM(e.salary) AS total_salary
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+GROUP BY e.deptno;
+SELECT e.ename
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+AND d.deptname = 'Dev';
