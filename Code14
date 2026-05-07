@@ -1,0 +1,69 @@
+14)Solve Below Queries: Use Set operations, Tuple Variable and Order by clause 
+1. Find all customers who have a loan, an account, or both: 
+2. Find all customers who have both a loan and an account. 
+3. Find all customers who have an account but no loan. 
+4. Find the customer names and their loan numbers and amount for all customers having a loan at some branch using tuple variable 
+5. Find the names of all branches that have greater assets than some branch located in Brooklyn using tuple variable 
+6. List in alphabetic order the names of all customers having a loan in Perryridge branch 
+
+Use Depositor and borrower relation with appropriate data” Create table and insert 5 rows. 
+
+CREATE DATABASE bank_set_db;
+USE bank_set_db;
+CREATE TABLE Depositor (
+    cname VARCHAR(50),
+    account_no INT
+);
+CREATE TABLE Borrower (
+    cname VARCHAR(50),
+    loan_no INT,
+    amount INT,
+    branch VARCHAR(50)
+);
+CREATE TABLE Branch (
+    branch_name VARCHAR(50),
+    assets INT,
+    city VARCHAR(50)
+);
+INSERT INTO Depositor VALUES
+('Amit', 101),
+('Riya', 102),
+('Rahul', 103),
+('Sneha', 104),
+('Karan', 105);
+INSERT INTO Borrower VALUES
+('Amit', 201, 5000, 'Perryridge'),
+('Riya', 202, 3000, 'Perryridge'),
+('Neha', 203, 7000, 'Brooklyn'),
+('Rahul', 204, 2000, 'Perryridge'),
+('Sunil', 205, 9000, 'Mumbai');
+INSERT INTO Branch VALUES
+('Perryridge', 50000, 'NY'),
+('Brooklyn', 40000, 'NY'),
+('Mumbai', 60000, 'India'),
+('Delhi', 55000, 'India'),
+('Chicago', 45000, 'USA');
+SELECT cname FROM Depositor
+UNION
+SELECT cname FROM Borrower;
+SELECT cname
+FROM Depositor
+WHERE cname IN (
+    SELECT cname FROM Borrower
+);
+SELECT cname FROM Depositor
+WHERE cname NOT IN (SELECT cname FROM Borrower);
+SELECT b.cname, b.loan_no, b.amount
+FROM Borrower b;
+SELECT b1.branch_name
+FROM Branch b1
+WHERE b1.assets > (
+    SELECT b2.assets
+    FROM Branch b2
+    WHERE b2.branch_name = 'Brooklyn'
+);
+SELECT cname
+FROM Borrower
+WHERE branch = 'Perryridge'
+ORDER BY cname ASC;
+(((
