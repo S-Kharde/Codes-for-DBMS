@@ -1,0 +1,56 @@
+10)Develop a Library Management System database to manage books and members. Create tables: 
+a. Members (member_id, name, email) , Books (book_id, title, author, price) 
+b. Borrow (borrow_id, member_id, book_id, date) , 
+
+Perform: INSERT records into all tables , UPDATE book price or member details , DELETE records for returned/lost books. Use:Arithmetic operations (price calculation with discount) , Logical conditions (price > 500 AND author='XYZ') , Pattern matching (title LIKE '%SQL%') , String functions (LOWER(), CONCAT()) , Set operators (INTERSECT or UNION for reports). 
+
+CREATE DATABASE library_db;
+USE library_db;
+CREATE TABLE Members (
+    member_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(50)
+);
+CREATE TABLE Books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(100),
+    author VARCHAR(50),
+    price INT
+);
+CREATE TABLE Borrow (
+    borrow_id INT PRIMARY KEY,
+    member_id INT,
+    book_id INT,
+    date DATE,
+    FOREIGN KEY (member_id) REFERENCES Members(member_id),
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)
+);
+INSERT INTO Members VALUES
+(1, 'Amit', 'amit@gmail.com'),
+(2, 'Riya', 'riya@gmail.com'),
+(3, 'Rahul', 'rahul@gmail.com');
+INSERT INTO Books VALUES
+(101, 'SQL Basics', 'XYZ', 600),
+(102, 'DBMS Guide', 'ABC', 400),
+(103, 'Advanced SQL', 'XYZ', 800),
+(104, 'Java Book', 'DEF', 500);
+INSERT INTO Borrow VALUES
+(1, 1, 101, '2024-01-01'),
+(2, 2, 102, '2024-02-01'),
+(3, 3, 103, '2024-03-01');
+UPDATE Books
+SET price = price + 50
+WHERE book_id = 102;
+DELETE FROM Books
+WHERE book_id = 104;
+SELECT title, price, price * 0.9 AS discounted_price
+FROM Books;
+SELECT * FROM Books
+WHERE price > 500 AND author = 'XYZ';
+SELECT * FROM Books
+WHERE title LIKE '%SQL%';
+SELECT LOWER(title), CONCAT(title, ' - ', author)
+FROM Books;
+SELECT title FROM Books WHERE price > 500
+UNION
+SELECT title FROM Books WHERE author = 'XYZ';
